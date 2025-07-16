@@ -1,1 +1,14 @@
+{
+  "name": "week11-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js app for CI/CD practice",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "author": "Kanak Raj",
+  "license": "ISC",
+  "dependencies": {}
+}
 
