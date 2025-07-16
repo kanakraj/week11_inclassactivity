@@ -5,10 +5,12 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "jest"
   },
   "author": "Kanak Raj",
   "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.0.4"
+  },
   "dependencies": {}
 }
-
