@@ -1,4 +1,6 @@
-
-test('sample test to verify Jest runs', () => {
-  expect(true).toBe(true);
+// tests/app.test.js
+describe('Sample Test', () => {
+  test('should pass', () => {
+    expect(1 + 1).toBe(2);
+  });
 });
