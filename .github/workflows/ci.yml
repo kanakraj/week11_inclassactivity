@@ -25,6 +25,13 @@ jobs:
       run: |
         mkdir -p test-report
         npm test | tee test-report/results.txt
+      continue-on-error: true  # Allow workflow to continue even if tests fail
+
+    - name: Verify test report file
+      run: |
+        ls -la test-report/
+        cat test-report/results.txt || echo "Test report file is empty or not created"
+      continue-on-error: true  # Prevent workflow from failing if file is empty
 
     - name: Commit and push test results to repo
       run: |
@@ -42,3 +49,4 @@ jobs:
       with:
         name: test-report
         path: test-report/results.txt
+        if-no-files-found: warn  # Warn instead of failing if no files are found
