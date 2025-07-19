@@ -17,8 +17,8 @@ jobs:
           db_name: ${{ secrets.WORDPRESS_DB_NAME }}
           root_pass: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 
-      - name: deploying the WordPress with MySQL
-        run: docker-compose up -d
+      - name: deploying WordPress with MySQL
+        run: docker compose up -d
 
       - name: Wait for services
         run: sleep 15
@@ -33,7 +33,7 @@ jobs:
           path: test_linux_report.html
       
       - name: Shutting down the containers
-        run: docker-compose down
+        run: docker compose down
 
 
 
