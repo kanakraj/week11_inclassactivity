@@ -1,0 +1,76 @@
+name: Wordpress
+on:
+  push:
+    branches: [main]
+
+jobs:
+  linux:
+    runs-on: [self-hosted, Linux]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setting the Env
+        uses: ./actions/linux
+        with:
+          db_user: ${{ secrets.WORDPRESS_DB_USER }}
+          db_pass: ${{ secrets.WORDPRESS_DB_PASSWORD }}
+          db_name: ${{ secrets.WORDPRESS_DB_NAME }}
+          root_pass: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+
+      - name: deploying the WordPress with MySQL
+        run: docker-compose up -d
+
+      - name: Wait for services
+        run: sleep 15
+
+      - name: Running the Tests script
+        run: ./linux_testing_script.sh test_linux_report.html
+
+      - name: Saving Linux test result as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test_linux_report
+          path: test_linux_report.html
+      
+      - name: Shutting down the containers
+        run: docker-compose down
+
+
+
+  windows:
+    runs-on: [self-hosted, Kanakraj]
+    needs: linux
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Env
+        uses: ./actions/windows
+        with:
+          db_user: ${{ secrets.WORDPRESS_DB_USER }}
+          db_pass: ${{ secrets.WORDPRESS_DB_PASSWORD }}
+          db_name: ${{ secrets.WORDPRESS_DB_NAME }}
+          root_pass: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+
+      - name: deploying the WordPress with MySQL
+        run: docker-compose up -d
+        shell: powershell
+
+      - name: Wait for services
+        run: Start-Sleep -Seconds 15
+        shell: powershell
+
+      - name: Run Tests on Windows
+        run: .\windows_testing_script.ps1 test_windows_report.html
+        shell: powershell
+
+      - name: Save Windows test result as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+         name: test_windows_report
+         path: test_windows_report.html
+
+      - name: shutting down the containers
+        run: docker-compose down
+        shell: powershell
