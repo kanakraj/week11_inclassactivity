@@ -40,7 +40,7 @@ jobs:
 
 
   windows:
-    runs-on: [self-hosted, KANAKRAJ]
+    runs-on: [self-hosted, Windows]
     needs: linux
 
     steps:
