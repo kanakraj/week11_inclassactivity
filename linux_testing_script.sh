@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://localhost:8000"
+URL="http://192.168.119.168:8000"
 OUTPUT_FILE=$1 
 
 echo "Testing WordPress site at $URL..."
